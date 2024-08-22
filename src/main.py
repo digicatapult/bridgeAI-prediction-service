@@ -1,5 +1,5 @@
 """FastAPI prediction service."""
-
+import os
 from typing import Annotated, Literal
 
 import requests
@@ -7,7 +7,8 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, field_validator
 
-model_prediction_endpoint = "http://modelprediction/v1/predict"
+model_prediction_endpoint = os.getenv("MODEL_PREDICTION_ENDPOINT")
+
 # custom type
 YesNoLiteral = Literal["YES", "yes", "Yes", "NO", "no", "No"]
 
