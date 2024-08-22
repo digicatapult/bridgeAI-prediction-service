@@ -8,7 +8,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, field_validator
 
-from utils import get_app_version
+from src.utils import get_app_version
 
 model_prediction_endpoint = os.getenv("MODEL_PREDICTION_ENDPOINT")
 
