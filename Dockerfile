@@ -29,4 +29,5 @@ ENV PYTHONPATH="${PYTHONPATH}:/app/src"
 ENV LOG_LEVEL=INFO
 
 # Run the application
-CMD ["poetry", "run", "python", "src/main.py"]
+WORKDIR ./src
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
