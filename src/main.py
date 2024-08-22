@@ -1,4 +1,5 @@
 """FastAPI prediction service."""
+
 import os
 from typing import Annotated, Literal
 
@@ -6,6 +7,8 @@ import requests
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, field_validator
+
+from utils import get_app_version
 
 model_prediction_endpoint = os.getenv("MODEL_PREDICTION_ENDPOINT")
 
@@ -18,7 +21,7 @@ app = FastAPI(
     title="House price prediction API",
     description="Housing price prediction API "
     "that interacts with MLFlow served model.",
-    version="1.0.0",
+    version=get_app_version(),
     docs_url="/swagger",  # Swagger UI Documentation - default /doc
     redoc_url="/api-docs",  # API documentation - ReDoc - default /redoc
 )
@@ -92,7 +95,8 @@ def health_check():
 
 @app.post("/data", response_model=ResponseModel)
 def get_data(house_data: HousingData):
-    # A test endpoint to see the formatted data passed
+    """A test endpoint to see the formatted data passed."""
+    # TODO: remove this once the development is completed.
     return {"status": 200, "message": "success", "response": house_data.dict()}
 
 
