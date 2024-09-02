@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/digicatapult/bridgeai-prediction-service
+  repository: fastapi-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "0.4"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -70,6 +70,25 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+## @param command Override default container command (useful when using custom images)
+##
+command:
+  - "uvicorn"
+  - "src.main:app"
+## @param args Override default container args (useful when using custom images)
+##
+args:
+  - "--host"
+  - "0.0.0.0"
+  - "--port"
+  - "{{ .Values.service.port }}"
+  - "--reload"
+
+## @param envVars Array with extra environment variables to add to the prediction service container
+envVars:
+  - name: MODEL_PREDICTION_ENDPOINT
+    value: "model/prediction/endpoint"
 
 livenessProbe:
   httpGet:

@@ -36,22 +36,24 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: {{ toYaml .Values.command | nindent 12 }}
+          args: {{ toYaml .Values.args | nindent 12 }}
           ports:
-            - containerPort: 8000
-              command: [ "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload" ]
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:
+            {{ toYaml .Values.envVars | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /health
-              port: 8000
+              port: {{ .Values.service.port }}
             initialDelaySeconds: 10
             periodSeconds: 100
           readinessProbe:
             httpGet:
               path: /health
-              port: 8000
+              port: {{ .Values.service.port }}
             initialDelaySeconds: 10
             periodSeconds: 100
           resources:
