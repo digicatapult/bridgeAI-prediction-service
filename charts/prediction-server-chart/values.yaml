@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: fastapi-app
+  repository: ghcr.io/digicatapult/bridgeai-prediction-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.4"
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -50,10 +50,10 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: chart-example.local
+    - host: model-prediction.local
       paths:
-        - path: /
-          pathType: ImplementationSpecific
+        - path: /predict
+          pathType: prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -88,7 +88,7 @@ args:
 ## @param envVars Array with extra environment variables to add to the prediction service container
 envVars:
   - name: MODEL_PREDICTION_ENDPOINT
-    value: "model/prediction/endpoint"
+    value: "http://model/prediction/endpoint"
 
 livenessProbe:
   httpGet:
