@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: fatapi-app
+  repository: ghcr.io/digicatapult/bridgeai-prediction-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.4"
+  tag: "v0.1.0"
 
 imagePullSecrets: []
 nameOverride: ""
