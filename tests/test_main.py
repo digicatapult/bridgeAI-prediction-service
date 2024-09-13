@@ -1,12 +1,20 @@
 """Unit tests for the fastapi app."""
 
+from unittest.mock import patch
+
 import requests
 from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
 
+from src.data_models import Base, PredictionLog
+from src.db_connection import get_db
 from src.main import app
 
-client = TestClient(app)
+# local db setup using docker compose
+DB_URL = "postgresql://admin:password@localhost:5432/bridgeai"
 
+# Test payload for model endpoint
 PAYLOAD = {
     "mainroad": "yes",
     "guestroom": "no",
@@ -22,6 +30,28 @@ PAYLOAD = {
     "parking": 1,
 }
 
+engine = create_engine(DB_URL)
+TestingSessionLocal = sessionmaker(
+    autocommit=False, autoflush=False, bind=engine
+)
+
+
+def override_get_db():
+    """Override the get_db dependency to use the test session"""
+    try:
+        db = TestingSessionLocal()
+        yield db
+    finally:
+        db.close()
+
+
+# Apply the override
+app.dependency_overrides[get_db] = override_get_db
+# Create tables for the test database
+Base.metadata.create_all(bind=engine)
+
+client = TestClient(app)
+
 
 def test_health_check():
     """Test for health check."""
@@ -34,7 +64,8 @@ def test_health_check():
     }
 
 
-def test_get_prediction_service_error(monkeypatch):
+@patch("src.main.requests.post")
+def test_get_prediction_service_error(mock_post, monkeypatch):
     """Test when the prediction service is unavailable."""
 
     def mock_post(*args, **kwargs):
@@ -48,3 +79,32 @@ def test_get_prediction_service_error(monkeypatch):
         "Regression model prediction service error"
         in response.json()["detail"]
     )
+
+
+@patch("src.main.requests.post")
+def test_predict_logs_to_db(mock_post):
+    """Integration test for database logging of prediction requests."""
+    # Set up the mock response object
+    # to mock response from the model prediction endpoint
+    mock_post.return_value.status_code = 200
+    price = 500000.0
+    mock_post.return_value.json.return_value = {"predictions": [[price]]}
+
+    response = client.post("/predict", json=PAYLOAD)
+
+    # Check the response status
+    assert response.status_code == 200
+    assert response.json()["status"] == 200
+
+    # Check if the data is logged in the test database
+    db: Session = next(override_get_db())
+    log = (
+        db.query(PredictionLog)
+        .order_by(PredictionLog.timestamp.desc())
+        .first()
+    )
+
+    assert log is not None
+    assert log.mainroad == PAYLOAD["mainroad"]
+    assert log.bedrooms == PAYLOAD["bedrooms"]
+    assert log.prediction_response == price

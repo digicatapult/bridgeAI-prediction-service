@@ -8,6 +8,8 @@
 5. The API documentations is available here - `http://localhost:8000/api-docs`
 
 ## How to run the tests
+1. Make the database up and running by `docker compose up -d` from terminal
+   You can login to the database using `psql -h localhost -p 5432 -U admin -d bridgeai`
 1. Install the requirements `poetry install`
 2. Run the tests `poetry run pytest`
 

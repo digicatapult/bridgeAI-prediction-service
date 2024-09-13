@@ -3,6 +3,7 @@
 import json
 import os
 import time
+from datetime import datetime, timezone
 from typing import Annotated, Literal
 
 import requests
@@ -100,6 +101,7 @@ def get_prediction(house_data: HousingData, db: Session = Depends(get_db)):
     db.commit()
     # Refresh the instance to get the ID assigned by the DB
     db.refresh(log_entry)
+    log_entry.timestamp = datetime.now(timezone.utc)
     try:
         start_time = time.perf_counter()
         # Get the model prediction
