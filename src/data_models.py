@@ -31,5 +31,7 @@ class PredictionLog(Base):
     parking = Column(Integer, nullable=False)
 
     prediction_response = Column(Float, nullable=True)  # Prediction result
-    timestamp = Column(DateTime, default=datetime.now(timezone.utc))  # Log timestamp
+    timestamp = Column(
+        DateTime, default=datetime.now(timezone.utc)
+    )  # Log timestamp
     inference_time = Column(Float, nullable=True)  # Inference time
