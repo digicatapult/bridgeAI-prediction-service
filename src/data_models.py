@@ -1,9 +1,9 @@
 """Data models for storing the requests."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import Column, DateTime, Float, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 # Base class for data models to inherit from
 Base = declarative_base()
@@ -31,5 +31,5 @@ class PredictionLog(Base):
     parking = Column(Integer, nullable=False)
 
     prediction_response = Column(Float, nullable=True)  # Prediction result
-    timestamp = Column(DateTime, default=datetime.utcnow)  # Log timestamp
+    timestamp = Column(DateTime, default=datetime.now(timezone.utc))  # Log timestamp
     inference_time = Column(Float, nullable=True)  # Inference time
