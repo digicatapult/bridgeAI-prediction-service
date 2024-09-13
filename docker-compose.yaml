@@ -1,0 +1,11 @@
+services:
+  # PostgreSQL service
+  db:
+    image: postgres:16          # latest or stable version
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: admin       # PostgreSQL username
+      POSTGRES_PASSWORD: password # PostgreSQL password
+      POSTGRES_DB: bridgeai      # Default database to create
+    ports:
+      - "5432:5432"              # Expose PostgreSQL on port 5432
