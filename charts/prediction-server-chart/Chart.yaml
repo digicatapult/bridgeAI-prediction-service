@@ -1,5 +1,9 @@
 apiVersion: v2
 name: prediction-server-chart
+maintainers:
+  - name: digicatapult
+    email: opensource@digicatapult.org.uk
+    url: www.digicatapult.org.uk
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
