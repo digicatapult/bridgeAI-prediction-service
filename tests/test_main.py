@@ -47,8 +47,6 @@ def override_get_db():
 
 # Apply the override
 app.dependency_overrides[get_db] = override_get_db
-# Create tables for the test database
-Base.metadata.create_all(bind=engine)
 
 client = TestClient(app)
 
