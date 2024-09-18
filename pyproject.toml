@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bridgeai-prediction-service"
-version = "0.1.1"
+version = "0.2.0"
 description = "Prediction service for the BridgeAI MLOps regression model"
 authors = ["DC AI Team <opensource@digicatapult.org.uk>"]
 readme = "README.md"
@@ -16,6 +16,7 @@ pytest = "^8.3.2"
 tomli = "^2.0.1"
 sqlalchemy = "^2.0.34"
 psycopg2-binary = "^2.9.9"
+alembic = "^1.13.2"
 
 
 [tool.poetry.group.dev.dependencies]

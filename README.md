@@ -2,6 +2,7 @@
 
 ## How to start the service
 1. Install the requirements `poetry install`
+2. Update the `sqlalchemy.url` in the `alembic.ini` from `postgresql://admin:password@localhost:5432/databasename` to the right one
 2. Start the server `uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload`
 3. Set up the "MODEL_PREDICTION_ENDPOINT" environment variable to point to the regression model prediction endpoint.
 4. Access the swagger ui here - `http://localhost:8000/swagger`
