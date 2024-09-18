@@ -56,11 +56,11 @@ jobs:
         uses: kibertoad/wait-action@1.0.1
         with:
           time: "30s"
+      - name: Install Packages
+        run: poetry install --no-interaction --no-ansi
       - name: Run database migrations
         run: poetry run alembic upgrade head
         working-directory: ./src
-      - name: Install Packages
-        run: poetry install --no-interaction --no-ansi
       - name: Run unit and integration tests
         run: poetry run pytest -v -s -W ignore::DeprecationWarning
 
