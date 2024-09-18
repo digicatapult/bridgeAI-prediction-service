@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field, field_validator
 from sqlalchemy.orm import Session
 
 from src.data_models import PredictionLog
-from src.db_connection import engine, get_db
+from src.db_connection import get_db
 from src.utils import get_app_version
 
 model_prediction_endpoint = os.getenv(
@@ -22,9 +22,6 @@ model_prediction_endpoint = os.getenv(
 
 # custom type
 YesNoLiteral = Literal["YES", "yes", "Yes", "NO", "no", "No"]
-
-# Create the database tables
-PredictionLog.metadata.create_all(bind=engine)
 
 # Initialise FastAPI app
 app = FastAPI(
