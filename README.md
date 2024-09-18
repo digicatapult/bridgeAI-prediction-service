@@ -3,7 +3,12 @@
 ## How to start the service
 1. Install the requirements `poetry install`
 2. Update environment variables needed (see [Environment Variables](#environment-variables))
-3. Run `poetry run alembic -c src/alembic.ini upgrade head` for database migration
+3. Run the following for database migration;
+```shell
+cd src
+poetry run alembic -c src/alembic.ini upgrade head`
+cd ../
+```
 4. Start the API server `uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload`
 5. Set up the "MODEL_PREDICTION_ENDPOINT" environment variable to point to the regression model prediction endpoint.
 6. Access the swagger ui here - `http://localhost:8000/swagger`
