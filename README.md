@@ -5,9 +5,7 @@
 2. Update environment variables needed (see [Environment Variables](#environment-variables))
 3. Run the following for database migration;
 ```shell
-cd src
-poetry run alembic -c src/alembic.ini upgrade head`
-cd ../
+poetry run alembic upgrade head`
 ```
 4. Start the API server `uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload`
 5. Set up the "MODEL_PREDICTION_ENDPOINT" environment variable to point to the regression model prediction endpoint.

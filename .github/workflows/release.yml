@@ -67,7 +67,6 @@ jobs:
         run: poetry install --no-interaction --no-ansi
       - name: Run database migrations
         run: poetry run alembic upgrade head
-        working-directory: ./src
       - name: Run unit and integration tests
         run: poetry run pytest -v -s -W ignore::DeprecationWarning
 
