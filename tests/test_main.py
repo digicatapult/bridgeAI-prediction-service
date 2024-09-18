@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from src.data_models import Base, PredictionLog
+from src.data_models import PredictionLog
 from src.db_connection import get_db
 from src.main import app
 
