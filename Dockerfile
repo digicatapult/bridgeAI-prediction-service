@@ -16,6 +16,9 @@ ENV POETRY_VIRTUALENVS_CREATE=false
 # Copy the pyproject.toml and poetry.lock files
 COPY pyproject.toml poetry.lock ./
 
+# Copy the alembic configuration
+COPY alembic.ini ./alembic.ini
+
 # Install only non-development dependencies
 RUN poetry install --no-dev --no-root
 
