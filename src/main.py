@@ -102,8 +102,12 @@ def get_prediction(house_data: HousingData, db: Session = Depends(get_db)):
     try:
         start_time = time.perf_counter()
         # Get the model prediction
+
+        headers = {"Content-Type: application/json"}
         response = requests.post(
-            model_prediction_endpoint, json=transformed_payload
+            model_prediction_endpoint,
+            json=transformed_payload,
+            headers=headers,
         )
 
         response.raise_for_status()
