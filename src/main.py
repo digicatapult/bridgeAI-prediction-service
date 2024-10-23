@@ -102,9 +102,6 @@ def preprocess_request(data: HousingData):
 
     payload = {"inputs": inputs}
 
-    # TODO: remove this after testing
-    print(payload)
-
     return payload
 
 
@@ -146,7 +143,7 @@ def get_prediction(house_data: HousingData, db: Session = Depends(get_db)):
         response.raise_for_status()
 
         # Extract predicted price from the model endpoint's response
-        predicted_price = response.json()["predictions"][0][0]
+        predicted_price = response.json()["outputs"][0]["data"][0]
 
         # Calculate the inference time in seconds
         end_time = time.perf_counter()
