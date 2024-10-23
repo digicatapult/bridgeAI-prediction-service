@@ -68,10 +68,43 @@ class ResponseModel(BaseModel):
 
 
 def preprocess_request(data: HousingData):
-    """Data transformation sending the request to the model."""
-    # include any data transformations needed for the prediction api
+    """Data transformation for sending the request to the kserve model."""
+
+    # Define datatype mapping for each feature
+    datatype_mapping = {
+        "mainroad": "BYTES",
+        "guestroom": "BYTES",
+        "basement": "BYTES",
+        "hotwaterheating": "BYTES",
+        "airconditioning": "BYTES",
+        "prefarea": "BYTES",
+        "furnishingstatus": "BYTES",
+        "area": "FP32",
+        "bedrooms": "INT64",
+        "bathrooms": "INT64",
+        "stories": "INT64",
+        "parking": "INT64",
+    }
+
+    # Convert data into dict format
     transformed_data = json.loads(data.model_dump_json())
-    payload = {"inputs": transformed_data}
+
+    # Modify the payload in the required kserve format
+    inputs = []
+    for key, value in transformed_data.items():
+        input_data = {
+            "name": key,
+            "shape": [1],
+            "datatype": datatype_mapping[key],
+            "data": [value.upper() if isinstance(value, str) else value],
+        }
+        inputs.append(input_data)
+
+    payload = {"inputs": inputs}
+
+    # TODO: remove this after testing
+    print(payload)
+
     return payload
 
 
