@@ -86,7 +86,21 @@ def test_predict_logs_to_db(mock_post):
     # to mock response from the model prediction endpoint
     mock_post.return_value.status_code = 200
     price = 500000.0
-    mock_post.return_value.json.return_value = {"predictions": [[price]]}
+    mock_post.return_value.json.return_value = {
+        "model_name": "house_price_prediction_prod",
+        "model_version": "4",
+        "id": "fa48be92-fa79-4b25-b305-b46c0f877893",
+        "parameters": {"content_type": "np"},
+        "outputs": [
+            {
+                "name": "output-1",
+                "shape": [1, 1],
+                "datatype": "FP32",
+                "parameters": {"content_type": "np"},
+                "data": [price],
+            }
+        ],
+    }
 
     response = client.post("/predict", json=PAYLOAD)
 
