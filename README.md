@@ -5,7 +5,7 @@
 2. Update environment variables needed (see [Environment Variables](#environment-variables))
 3. Run the following for database migration;
 ```shell
-poetry run alembic upgrade head`
+poetry run alembic upgrade head
 ```
 4. Start the API server `uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload`
 5. Set up the "MODEL_PREDICTION_ENDPOINT" environment variable to point to the regression model prediction endpoint.
@@ -29,8 +29,9 @@ The following environment variables need to be set:
 ## How to run the tests
 1. Make the database up and running by `docker compose up -d` from terminal
    You can login to the database using `psql -h localhost -p 5432 -U admin -d bridgeai`
-1. Install the requirements `poetry install`
-2. Run the tests `poetry run pytest`
+2. Install the requirements `poetry install`
+3. Run `poetry run alembic upgrade head` for database migration
+4. Run the tests `poetry run pytest`
 
 ## Helm installation - local testing
 1. To deploy - `helm install prediction-server-release charts/prediction-server-chart`
