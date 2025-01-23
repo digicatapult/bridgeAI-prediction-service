@@ -20,7 +20,7 @@ COPY pyproject.toml poetry.lock ./
 COPY alembic.ini ./alembic.ini
 
 # Install only non-development dependencies
-RUN poetry install --no-dev --no-root
+RUN poetry install --without dev --no-root
 
 # Copy the rest of the application code into the container
 COPY src ./src
